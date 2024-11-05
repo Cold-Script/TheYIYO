@@ -112,6 +112,38 @@ workspace.Gravity = 90
 end
 end)
 end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Instance Interact", 
+	Default = false,
+	Description = "Không Phải Giữ",
+	Callback = function(v)
+_G.InstanceInteract = v
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.InstanceInteract then return end
+if v:IsA("ProximityPrompt") then
+if _G.InstanceInteract then
+v.HoldDuration = 0
+end
+end
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Cross Interaction", 
+	Default = false,
+	Description = "Nhấn xuyên tường",
+	Callback = function(v)
+_G.CrossInteraction = v
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.CrossInteraction then return end
+if v:IsA("ProximityPrompt") then
+if _G.CrossInteraction then
+v.RequiresLineOfSight = false
+else
+v.RequiresLineOfSight = true
+end
+end
+end)
+end})
 Tabs.Main:AddSection("Miscarriage")
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Reach Doors", 
