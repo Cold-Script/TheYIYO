@@ -1,0 +1,112 @@
+if _G.ExecuteLimit then
+print("Sorry, Execute Limit | YIYO")
+end
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local Window = Fluent:CreateWindow({
+    Title = "🎃 DOORS - Halloween",
+    SubTitle = "| YIYO",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+Fluent:Notify({
+Title = "< ! > | YIYO - Warning",
+Content = "Credits by yiviro92 and rechedmcvn",
+SubContent = "SubContent",
+Duration = 5
+})
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "house-plus" }),
+    Exploit = Window:AddTab({ Title = "Exploits", Icon = "triangle-alert" }),
+    Visual = Window:AddTab({ Title = "Visual", Icon = "eye" }),
+    Setting = Window:AddTab({ Title = "Setting", Icon = "settings" })
+}
+Tabs.Main:AddSlider("Slider", {
+        Title = "Running Speed",
+        Description = "Tốc độ chạy",
+        Default = 15,
+        Min = 15,
+        Max = 50,
+        Rounding = 1,
+        Callback = function(v)
+        _Speed = v
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Running Speed", 
+	Default = false,
+	Description = "Lấy tốc độ đã chọn",
+	Callback = function(v)
+_EnabledSpeed = v
+if _EnabledSpeed then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _Speed or 15
+else
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Noclip", 
+	Default = false,
+	Description = "Đi xuyên tường",
+	Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
+if v then
+game.Players.LocalPlayer.Character.Collision.CanCollide = false
+else
+game.Players.LocalPlayer.Character.Collision.CanCollide = true
+end
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Jump", 
+	Default = false,
+	Description = "Nhảy",
+	Callback = function(v)
+_Jump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character:SetAttribute("CanJump", _Jump)
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "No Acceleration", 
+	Default = false,
+	Description = "Không trơn trượt",
+	Callback = function(v)
+_G.NoSlow = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Head.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LowerTorso.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.UpperTorso.Massless = not _G.NoSlow;
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Slow Gravity", 
+	Default = false,
+	Description = "Giảm Trọng Lực",
+	Callback = function(v)
+_SlowJump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _SlowJump then
+workspace.Gravity = 50
+else
+workspace.Gravity = 90
+end
+end)
+end})
+
