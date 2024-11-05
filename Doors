@@ -25,6 +25,7 @@ local Tabs = {
     Visual = Window:AddTab({ Title = "Visual", Icon = "eye" }),
     Setting = Window:AddTab({ Title = "Setting", Icon = "settings" })
 }
+Tabs.Main:AddSection("Players")
 Tabs.Main:AddSlider("Slider", {
         Title = "Running Speed",
         Description = "Tốc độ chạy",
@@ -33,19 +34,21 @@ Tabs.Main:AddSlider("Slider", {
         Max = 50,
         Rounding = 1,
         Callback = function(v)
-        _Speed = v
+        _G.Speed = v
 end})
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Running Speed", 
 	Default = false,
 	Description = "Lấy tốc độ đã chọn",
 	Callback = function(v)
-_EnabledSpeed = v
-if _EnabledSpeed then
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _Speed or 15
+_G.EnabledSpeed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.EnabledSpeed then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.Speed or 15
 else
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
 end
+end)
 end})
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Noclip", 
@@ -65,9 +68,9 @@ Tabs.Main:AddToggle("MyToggle",{
 	Default = false,
 	Description = "Nhảy",
 	Callback = function(v)
-_Jump = v
+_G.Jump = v
 game:GetService("RunService").RenderStepped:Connect(function()
-game.Players.LocalPlayer.Character:SetAttribute("CanJump", _Jump)
+game.Players.LocalPlayer.Character:SetAttribute("CanJump", _G.Jump)
 end)
 end})
 Tabs.Main:AddToggle("MyToggle",{
@@ -100,13 +103,53 @@ Tabs.Main:AddToggle("MyToggle",{
 	Default = false,
 	Description = "Giảm Trọng Lực",
 	Callback = function(v)
-_SlowJump = v
+_G.SlowJump = v
 game:GetService("RunService").RenderStepped:Connect(function()
-if _SlowJump then
+if _G.SlowJump then
 workspace.Gravity = 50
 else
 workspace.Gravity = 90
 end
 end)
 end})
-
+Tabs.Main:AddSection("Miscarriage")
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Reach Doors", 
+	Default = false,
+	Description = "Mở Cửa Xa",
+	Callback = function(v)
+_G.ReachDoors = v
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.ReachDoors then 
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door").ClientOpen:FireServer()
+end 
+end)
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Fast Doors", 
+	Default = false,
+	Description = "Cửa nhanh",
+	Callback = function(v)
+_G.FastDoors = v
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.FastDoors then 
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door"):SetAttribute("FastOpen", true)
+end 
+end)
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Closets Exit Fix", 
+	Default = false,
+	Description = "Chỗ ẩn nắp dễ dàng ra vào",
+	Callback = function(v)
+_G.ClosetsExitFix = v
+game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
+if _G.ClosetsExitFix and game.Players.LocalPlayer.Character:GetAttribute("Hiding")==true then 
+game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
+end 
+end)
+end})
