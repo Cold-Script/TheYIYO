@@ -55,12 +55,9 @@ Tabs.Main:AddToggle("MyToggle",{
 	Default = false,
 	Description = "Đi xuyên tường",
 	Callback = function(v)
+_G.Noclip = v
 game:GetService("RunService").RenderStepped:Connect(function()
-if v then
-game.Players.LocalPlayer.Character.Collision.CanCollide = false
-else
-game.Players.LocalPlayer.Character.Collision.CanCollide = true
-end
+game.Players.LocalPlayer.Character.Collision.CanCollide = not _G.Noclip
 end)
 end})
 Tabs.Main:AddToggle("MyToggle",{
@@ -118,17 +115,23 @@ Tabs.Main:AddToggle("MyToggle",{
 	Description = "Không Phải Giữ",
 	Callback = function(v)
 _G.InstanceInteract = v
-game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
-if not _G.InstanceInteract then return end
-if v:IsA("ProximityPrompt") then
 if _G.InstanceInteract then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
 v.HoldDuration = 0
 end
 end
+InstanceInteract = workspace.ChildAdded:Connect(function(v)
+if v:IsA("ProximityPrompt") then
+v.HoldDuration = 0
+end
 end)
+else
+InstanceInteract:Disconnect()
+end
 end})
 Tabs.Main:AddToggle("MyToggle",{
-	Title = "Cross Interaction", 
+	Title = "Noclip Interact", 
 	Default = false,
 	Description = "Nhấn xuyên tường",
 	Callback = function(v)
@@ -143,6 +146,72 @@ v.RequiresLineOfSight = true
 end
 end
 end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Speed Bypass", 
+	Default = false,
+	Description = "Tốc độ được Bypass",
+	Callback = function(v)
+_G.SpeedBypass = v
+if _G.SpeedBypass then
+_G.Wait = 0.22
+else
+_G.Wait = 5
+end
+local character = game.Players.LocalPlayer.Character
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+local speedBoost, speedBoostFinished, speed = 30, false, false
+if bypass then
+if collisionClone then collisionClone:Destroy() end
+speed = true       
+local originalSpeed = SpeedBypass
+repeat task.wait()
+if not SpeedBypass then
+SpeedBypass:SetValue(true)
+end
+until speedBoostFinished
+SpeedBypass:SetValue(originalSpeed)
+else
+if not collisionClone then
+collisionClone = character.Collision:Clone() do
+collisionClone.CanCollide = false
+collisionClone.Massless = true
+collisionClone.Name = "CollisionClone"
+if collisionClone:FindFirstChild("CollisionCrouch") then
+collisionClone.CollisionCrouch:Destroy()
+end   
+collisionClone.Parent = character    
+end
+end
+task.spawn(function()  
+while not speedBoostFinished do
+collisionClone.Massless = not collisionClone.Massless
+task.wait(_G.Wait or 5)
+end           
+collisionClone.Massless = true                  
+end)
+end
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Godmode", 
+	Default = false,
+	Description = "Bất tử",
+	Callback = function(v)
+_G.Godmode = v
+if not game.ReplicatedStorage.GameData.Floor.Value == "Fools" and _G.Godmode then
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
+else
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
+end
+if game.ReplicatedStorage.GameData.Floor.Value == "Fools" and _G.Godmode then
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,10,0)
+else
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,-10,0)
+end
 end})
 Tabs.Main:AddSection("Miscarriage")
 Tabs.Main:AddSlider("Slider", {
