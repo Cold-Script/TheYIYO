@@ -16,7 +16,7 @@ local Window = Fluent:CreateWindow({
 Fluent:Notify({
 Title = "< ! > | YIYO - Warning",
 Content = "Credits by yiviro92 and rechedmcvn",
-SubContent = "SubContent",
+SubContent = "v1.0",
 Duration = 5
 })
 local Tabs = {
@@ -145,6 +145,19 @@ end
 end)
 end})
 Tabs.Main:AddSection("Miscarriage")
+Tabs.Main:AddSlider("Slider", {
+        Title = "Max Greed",
+        Description = "Tối đa Tham Lam",
+        Default = 0,
+        Min = 0,
+        Max = 5,
+        Rounding = 1,
+        Callback = function(v)
+        _G.Greed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer:SetAttribute("Greed", v)
+end)
+end})
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Reach Doors", 
 	Default = false,
@@ -191,7 +204,6 @@ Tabs.Main:AddToggle("MyToggle",{
 	Description = "Hiện cửa đúng",
 	Callback = function(v)
 _G.ShowDoor = v
-game:GetService("RunService").RenderStepped:Connect(function()
 if _G.ShowDoor then
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Door" and v.Parent.Name == "Door" then
@@ -200,8 +212,16 @@ v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
 v.Parent.Sign.Stinker.TextColor3 = Color3.new(0,0.5) --120, 103, 94
 end
 end
+Showdoor = workspace.ChildAdded:Connect(function(v)
+if v.Name == "Door" and v.Parent.Name == "Door" then
+v.Color = Color3.new(0,0.5) --129, 111, 100
+v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
+v.Parent.Sign.Stinker.TextColor3 = Color3.new(0,0.5) --120, 103, 94
 end
 end)
+else
+Showdoor:Disconnect()
+end
 end})
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Show dupe", 
@@ -209,14 +229,20 @@ Tabs.Main:AddToggle("MyToggle",{
 	Description = "Hiện DUPE",
 	Callback = function(v)
 _G.ShowDupe = v
-game:GetService("RunService").RenderStepped:Connect(function()
 if _G.ShowDupe then
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "DoorFake" then
-v.Color = Color3.new(0,0.5) --129, 111, 100
-v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
+v.Color = Color3.new(0.5) --129, 111, 100
+v.Sign.Color = Color3.new(0.5) --161, 138, 126
 end
 end
+Showdupe = workspace.ChildAdded:Connect(function(v)
+if v.Name == "DoorFake" then
+v.Color = Color3.new(0.5) --129, 111, 100
+v.Sign.Color = Color3.new(0.5) --161, 138, 126
 end
 end)
+else
+Showdupe:Disconnect()
+end
 end})
