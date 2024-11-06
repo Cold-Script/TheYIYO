@@ -192,13 +192,14 @@ collisionClone.Massless = true
 end)
 end
 end})
-Tabs.Main:AddToggle("MyToggle",{
+Tabs.Main:AddToggle("GodmodeNoFools",{
 	Title = "Godmode [No April Fools]", 
 	Default = false,
 	Description = "Bất tử [Không cá tháng tư]",
 	Callback = function(v)
 _G.Godmode = v
 if _G.Godmode then
+Options.GodmodeFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
 else
@@ -206,13 +207,14 @@ local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
 end
 end})
-Tabs.Main:AddToggle("MyToggle",{
+Tabs.Main:AddToggle("GodmodeFools",{
 	Title = "Godmode [April Fools]", 
 	Default = false,
 	Description = "Bất tử [Cá tháng tư]",
 	Callback = function(v)
 _G.Godmode = v
 if _G.Godmode then
+Options.GodmodeNoFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,8,0)
 else
