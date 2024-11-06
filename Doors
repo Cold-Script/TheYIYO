@@ -20,8 +20,8 @@ SubContent = "SubContent",
 Duration = 5
 })
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "house-plus" }),
-    Exploit = Window:AddTab({ Title = "Exploits", Icon = "triangle-alert" }),
+    Main = Window:AddTab({ Title = "Main", Icon = "book" }),
+    Exploit = Window:AddTab({ Title = "Exploits", Icon = "moon" }),
     Visual = Window:AddTab({ Title = "Visual", Icon = "eye" }),
     Setting = Window:AddTab({ Title = "Setting", Icon = "settings" })
 }
@@ -183,5 +183,40 @@ game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirect
 if _G.ClosetsExitFix and game.Players.LocalPlayer.Character:GetAttribute("Hiding")==true then 
 game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
 end 
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Show correct door", 
+	Default = false,
+	Description = "Hiện cửa đúng",
+	Callback = function(v)
+_G.ShowDoor = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.ShowDoor then
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "Door" and v.Parent.Name == "Door" then
+v.Color = Color3.new(0,0.5) --129, 111, 100
+v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
+v.Parent.Sign.Stinker.TextColor3 = Color3.new(0,0.5) --120, 103, 94
+end
+end
+end
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Show dupe", 
+	Default = false,
+	Description = "Hiện DUPE",
+	Callback = function(v)
+_G.ShowDupe = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.ShowDupe then
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "DoorFake" then
+v.Color = Color3.new(0,0.5) --129, 111, 100
+v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
+end
+end
+end
 end)
 end})
