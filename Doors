@@ -198,7 +198,7 @@ Tabs.Main:AddToggle("MyToggle",{
 	Description = "Bất tử",
 	Callback = function(v)
 _G.Godmode = v
-if not game.ReplicatedStorage.GameData.Floor.Value == "Fools" and _G.Godmode then
+if _G.Godmode then
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
 else
@@ -207,10 +207,10 @@ Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
 end
 if game.ReplicatedStorage.GameData.Floor.Value == "Fools" and _G.Godmode then
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
-Collison.Position = Collison.Position - Vector3.new(0,10,0)
+Collison.Position = Collison.Position - Vector3.new(0,8,0)
 else
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
-Collison.Position = Collison.Position - Vector3.new(0,-10,0)
+Collison.Position = Collison.Position - Vector3.new(0,-8,0)
 end
 end})
 Tabs.Main:AddSection("Miscarriage")
@@ -268,7 +268,7 @@ end
 end)
 end})
 Tabs.Main:AddToggle("MyToggle",{
-	Title = "Show correct door", 
+	Title = "Show Correct Door", 
 	Default = false,
 	Description = "Hiện cửa đúng",
 	Callback = function(v)
@@ -293,7 +293,7 @@ Showdoor:Disconnect()
 end
 end})
 Tabs.Main:AddToggle("MyToggle",{
-	Title = "Show dupe", 
+	Title = "Show Dupe", 
 	Default = false,
 	Description = "Hiện DUPE",
 	Callback = function(v)
