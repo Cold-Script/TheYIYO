@@ -193,9 +193,9 @@ end)
 end
 end})
 Tabs.Main:AddToggle("MyToggle",{
-	Title = "Godmode", 
+	Title = "Godmode [No April Fools]", 
 	Default = false,
-	Description = "Bất tử",
+	Description = "Bất tử [Không cá tháng tư]",
 	Callback = function(v)
 _G.Godmode = v
 if _G.Godmode then
@@ -205,7 +205,14 @@ else
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
 end
-if game.ReplicatedStorage.GameData.Floor.Value == "Fools" and _G.Godmode then
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Godmode [April Fools]", 
+	Default = false,
+	Description = "Bất tử [Cá tháng tư]",
+	Callback = function(v)
+_G.Godmode = v
+if _G.Godmode then
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,8,0)
 else
