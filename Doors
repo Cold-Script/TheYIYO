@@ -227,13 +227,13 @@ collisionClone.Massless = true
 end)
 end
 end})
+if not game.ReplicatedStorage.GameData.Floor.Value == "Fools" then
 Tabs.Main:AddToggle("GodmodeNoFools",{
-	Title = "Godmode [No April Fools]", 
+	Title = "Godmode", 
 	Default = false,
-	Description = "Bất tử [Không cá tháng tư]",
+	Description = "Bất tử",
 	Callback = function(v)
 if v then
-Options.GodmodeFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
 else
@@ -241,13 +241,13 @@ local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
 end
 end})
+elseif game.ReplicatedStorage.GameData.Floor.Value == "Fools" then
 Tabs.Main:AddToggle("GodmodeFools",{
-	Title = "Godmode [April Fools]", 
+	Title = "Godmode", 
 	Default = false,
-	Description = "Bất tử [Cá tháng tư]",
+	Description = "Bất tử",
 	Callback = function(v)
 if v then
-Options.GodmodeNoFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,8,0)
 else
@@ -255,6 +255,7 @@ local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,-8,0)
 end
 end})
+end
 Tabs.Main:AddSection("Miscarriage")
 Tabs.Main:AddSlider("Slider", {
         Title = "Max Greed",
@@ -323,6 +324,7 @@ game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
 end 
 end)
 end})
+if not game.ReplicatedStorage.GameData.Floor.Value == "Mines" and game.ReplicatedStorage.GameData.Floor.Value == "Backdoor" then
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Show Correct Door", 
 	Default = false,
@@ -379,3 +381,4 @@ else
 Showdupe:Disconnect()
 end
 end})
+end
