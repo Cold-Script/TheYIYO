@@ -265,6 +265,20 @@ end)
 end)
 end})
 Tabs.Main:AddToggle("MyToggle",{
+	Title = "Fast Dupe", 
+	Default = false,
+	Description = "DUPE nhanh",
+	Callback = function(v)
+_G.FastDupe = v
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.FastDupe then 
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("DoorFake"):SetAttribute("FastOpen", true)
+end 
+end)
+end)
+end})
+Tabs.Main:AddToggle("MyToggle",{
 	Title = "Closets Exit Fix", 
 	Default = false,
 	Description = "Chỗ ẩn nắp dễ dàng ra vào",
