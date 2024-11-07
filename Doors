@@ -13,12 +13,15 @@ local Window = Fluent:CreateWindow({
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl
 })
+function notify(text, description, subcontent, time)
 Fluent:Notify({
-Title = "< ! > | YIYO - Warning",
-Content = "Credits by yiviro92 and rechedmcvn",
-SubContent = "v1.0",
-Duration = 5
+Title = text,
+Content = description,
+SubContent = subcontent,
+Duration = time
 })
+end
+notify("< ! > | YIYO Warning","Credits by yieviro92 and rechedmcvn","v1.0",5)
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "book" }),
     Exploit = Window:AddTab({ Title = "Exploits", Icon = "moon" }),
@@ -31,7 +34,7 @@ Tabs.Main:AddDropdown("Dropdown", {
         Description = "Chọn cái chết",
         Values = {"Lobby", "Leave", "Revive", },
         Multi = false,
-        Default = 0,
+        Default = "...",
         Callback = function(v)
 _G.SelectDeath = v
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectDeath == "Lobby" then
@@ -51,9 +54,9 @@ end
 end
 end})
 Tabs.Main:AddToggle("MyToggle",{
-	Title = "Enabled " .. _G.SelectDeath, 
+	Title = "Enabled Death", 
 	Default = false,
-	Description = "Chết Bằng : " .. _G.SelectDeath,
+	Description = "Nhận Chết",
 	Callback = function(v)
 _G.EnabledDeath = v
 end})
