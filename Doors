@@ -25,6 +25,38 @@ local Tabs = {
     Visual = Window:AddTab({ Title = "Visual", Icon = "eye" }),
     Setting = Window:AddTab({ Title = "Setting", Icon = "settings" })
 }
+Tabs.Main:AddSection("GamePlay")
+Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Select Death",
+        Description = "Chọn cái chết",
+        Values = {"Lobby", "Leave", "Revive", },
+        Multi = false,
+        Default = 0,
+        Callback = function(v)
+_G.SelectDeath = v
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectDeath == "Lobby" then
+if _G.EnabledDeath then
+game.ReplicatedStorage.EntityInfo.Lobby:FireServer()
+game.ReplicatedStorage.RemoteFolder.Lobby:FireServer()
+end
+elseif game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectDeath == "Leave" then
+if _G.EnabledDeath then
+game:Shutdown()
+end
+elseif game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectDeath == "Revive" then
+if _G.EnabledDeath then
+game.ReplicatedStorage.RemoteFolder.Revive:FireServer()
+game.ReplicatedStorage.EntityInfo.Revive:FireServer()
+end
+end
+end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Enabled " .. _G.SelectDeath, 
+	Default = false,
+	Description = "Chết Bằng : " .. _G.SelectDeath,
+	Callback = function(v)
+_G.EnabledDeath = v
+end})
 Tabs.Main:AddSection("Players")
 Tabs.Main:AddSlider("Slider", {
         Title = "Running Speed",
