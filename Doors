@@ -197,8 +197,7 @@ Tabs.Main:AddToggle("GodmodeNoFools",{
 	Default = false,
 	Description = "Bất tử [Không cá tháng tư]",
 	Callback = function(v)
-_G.Godmode = v
-if _G.Godmode then
+if v then
 Options.GodmodeFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
@@ -212,8 +211,7 @@ Tabs.Main:AddToggle("GodmodeFools",{
 	Default = false,
 	Description = "Bất tử [Cá tháng tư]",
 	Callback = function(v)
-_G.Godmode = v
-if _G.Godmode then
+if v then
 Options.GodmodeNoFools:SetValue(false)
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,8,0)
