@@ -234,7 +234,8 @@ Tabs.Main:AddToggle("GodmodeNoFools",{
 	Default = false,
 	Description = "Bất tử",
 	Callback = function(v)
-if v then
+_G.GodMode = v
+if _G.GodMode then
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
 else
@@ -248,7 +249,8 @@ Tabs.Main:AddToggle("GodmodeFools",{
 	Default = false,
 	Description = "Bất tử",
 	Callback = function(v)
-if v then
+_G.GodModeFools = v
+if _G.GodModeFools then
 local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
 Collison.Position = Collison.Position - Vector3.new(0,8,0)
 else
@@ -324,64 +326,6 @@ if _G.ClosetsExitFix and game.Players.LocalPlayer.Character:GetAttribute("Hiding
 game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
 end 
 end)
-end})
-if not game.ReplicatedStorage.GameData.Floor.Value == "Mines" then
-elseif not game.ReplicatedStorage.GameData.Floor.Value == "Backdoor" then
-Tabs.Main:AddToggle("MyToggle",{
-	Title = "Show Correct Door", 
-	Default = false,
-	Description = "Hiện cửa đúng",
-	Callback = function(v)
-_G.ShowDoor = v
-if _G.ShowDoor then
-for _,v in pairs(workspace:GetDescendants()) do
-if v.Name == "Door" and v.Parent.Name == "Door" then
-v.Color = Color3.new(0,0.5) --129, 111, 100
-v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
-v.Parent.Sign.Stinker.TextColor3 = Color3.new(0,0.5) --120, 103, 94
-end
-end
-Showdoor = workspace.ChildAdded:Connect(function(v)
-if v.Name == "Door" and v.Parent.Name == "Door" then
-v.Color = Color3.new(0,0.5) --129, 111, 100
-v.Sign.Color = Color3.new(0,0.5) --161, 138, 126
-v.Parent.Sign.Stinker.TextColor3 = Color3.new(0,0.5) --120, 103, 94
-end
-end)
-else
-Showdoor:Disconnect()
-end
-end})
-Tabs.Main:AddToggle("MyToggle",{
-	Title = "Show Dupe Door", 
-	Default = false,
-	Description = "Hiện DUPE",
-	Callback = function(v)
-_G.ShowDupe = v
-if _G.ShowDupe then
-for _,v in pairs(workspace:GetDescendants()) do
-if v.Name == "DoorFake" then
-v.Door.Color = Color3.new(0.45) --129, 111, 100
-v.Door.Sign.Color = Color3.new(0.45) --161, 138, 126
-v.Sign.Stinker.Text = "DUPE"
-v.Sign.Stinker.TextColor3 = Color3.new(0.5) --120, 103, 94
-v.Sign.Stinker["Highlight"].Text = "DUPE"
-v.Sign.Stinker["Shadow"].Text = "DUPE"
-end
-end
-Showdupe = workspace.ChildAdded:Connect(function(v)
-if v.Name == "DoorFake" then
-v.Door.Color = Color3.new(0.45) --129, 111, 100
-v.Door.Sign.Color = Color3.new(0.45) --161, 138, 126
-v.Sign.Stinker.Text = "DUPE"
-v.Sign.Stinker.TextColor3 = Color3.new(0.5) --120, 103, 94
-v.Sign.Stinker["Highlight"].Text = "DUPE"
-v.Sign.Stinker["Shadow"].Text = "DUPE"
-end
-end)
-else
-Showdupe:Disconnect()
-end
 end})
 end
 Tabs.Main:AddSection("Automation")
@@ -482,6 +426,18 @@ end
 end
 elseif v.Name == "GoldPile" then
 local prompt = v:WaitForChild("LootPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "Lock" then
+local prompt = v:WaitForChild("UnlockPrompt")
 local interactions = prompt:GetAttribute("Interactions")
 if not interactions then
 task.spawn(function()
