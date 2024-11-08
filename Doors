@@ -455,3 +455,92 @@ if Collected.Name == "Icon" then
            end
       end
 end})
+Tabs.Main:AddToggle("MyToggle",{
+	Title = "Auto Interact", 
+	Default = false,
+	Description = "Tự động tương tác",
+	Callback = function(v)
+_G.AutoLoot = v
+if v then
+local function setup(room)
+local function check(v)
+if v:IsA("Model") then
+if v.Name == "DrawerContainer" then
+local knob = v:WaitForChild("Knobs")
+if knob then
+local prompt = knob:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(knob.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+end
+elseif v.Name == "GoldPile" then
+local prompt = v:WaitForChild("LootPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name:sub(1,8) == "ChestBox" then
+local prompt = v:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "RolltopContainer" then
+local prompt = v:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")                       
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.1)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+end 
+end
+end
+local subaddcon
+subaddcon = room.DescendantAdded:Connect(function(v)
+check(v) 
+end)            
+for i,v in pairs(room:GetDescendants()) do
+check(v)
+end            
+task.spawn(function()
+repeat task.wait() until not _G.AutoLoot
+subaddcon:Disconnect() 
+end)
+end        
+local addconnect
+addconnect = workspace.CurrentRooms.ChildAdded:Connect(function(room)
+setup(room)
+end)        
+for i,room in pairs(workspace.CurrentRooms:GetChildren()) do
+if room:FindFirstChild("Assets") then
+setup(room) 
+end
+end        
+repeat task.wait() until not _G.AutoLoot
+addconnect:Disconnect()
+end
+end})
