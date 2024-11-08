@@ -1,5 +1,6 @@
 if _G.ExecuteLimit then
 print("Sorry, Execute Limit | YIYO")
+return
 end
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -324,7 +325,8 @@ game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
 end 
 end)
 end})
-if not game.ReplicatedStorage.GameData.Floor.Value == "Mines" and game.ReplicatedStorage.GameData.Floor.Value == "Backdoor" then
+if not game.ReplicatedStorage.GameData.Floor.Value == "Mines" then
+elseif not game.ReplicatedStorage.GameData.Floor.Value == "Backdoor" then
 Tabs.Main:AddToggle("MyToggle",{
 	Title = "Show Correct Door", 
 	Default = false,
@@ -411,7 +413,7 @@ if Collected.Name == "Icon" then
             end
            end
         if Hints < HintsNeeded then
-            Library:Notify("YIYO","You need to collect at least " .. HintsNeeded - Hints .. " more correct hint" .. (Hints ~= 2 and "s" or "") .. " to use this.","Collect Book",3)
+            notify("YIYO","You need to collect at least " .. HintsNeeded - Hints .. " more correct hint" .. (Hints ~= 2 and "s" or "") .. " to use this.","Collect Book",3)
             return
         end
         local t = {}
